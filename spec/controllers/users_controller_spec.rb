@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::UsersController, type: :controller do
+  include Devise::Test::ControllerHelpers
+
   describe 'POST #create' do
     context 'with valid credentials' do
       it 'returns a successful response with user data' do
@@ -57,6 +59,39 @@ RSpec.describe Api::UsersController, type: :controller do
 
         expected_response = { 'error' => 'Email has already been taken' }
         expect(JSON.parse(response.body)).to eq(expected_response)
+      end
+    end
+  end
+
+  describe "GET #user_details" do
+    context "when user is not authenticated" do
+      it "returns HTTP unauthorized" do
+        get :user_details
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when user is authenticated" do
+      let(:user) { create(:user) }
+      let(:auth_headers) { {
+          'X-User-Email' => user.email,
+          'X-User-Token' => user.authentication_token
+        }
+      }
+
+      before { request.headers.merge!(auth_headers) }
+  
+      it "returns HTTP success" do
+        get :user_details
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "returns user details" do
+        get :user_details
+        user_json = JSON.parse(response.body)["user"]
+        expect(response).to match_response_schema('user_details')
+        expect(user_json["id"]).to eq(user.id)
+        expect(user_json["stats"]["total_games_played"]).to eq(user.total_games_played)
       end
     end
   end
