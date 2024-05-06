@@ -32,7 +32,7 @@ RSpec.describe Api::GameEventsController, type: :controller do
 
           user.reload
           expect(user.total_games_played).to eq(1)
-          expect(response).to have_http_status(:ok)
+          expect(response).to have_http_status(:created)
         end
       end
 

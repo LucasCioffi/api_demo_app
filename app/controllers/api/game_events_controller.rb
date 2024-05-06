@@ -16,6 +16,6 @@ class Api::GameEventsController < ApplicationController
     current_user.total_games_played += 1
     current_user.save
 
-    head(:ok)
+    head(:created)
   end
 end
