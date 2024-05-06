@@ -8,8 +8,10 @@ one:
   email: 'user1@example.com'
   authentication_token: 'user_token_1'
   confirmed_at: <%= Time.now %>
+  total_games_played: 10
 
 two:
   email: 'user2@example.com'
   authentication_token: 'user_token_2'
   confirmed_at: <%= Time.now %>
+  total_games_played: 20

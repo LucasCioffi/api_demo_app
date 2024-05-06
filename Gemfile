@@ -39,13 +39,14 @@ gem 'simple_token_authentication', '~> 1.0'
 
 group :development, :test do
   gem 'pry'
-  gem 'rspec-rails'
-  gem 'factory_bot_rails'
 end
 
 group :test do
+  gem 'rspec-rails'
+  gem 'factory_bot_rails'
   gem 'shoulda-matchers', '~> 6.0'
   gem 'json-matchers', require: false
   gem 'json-schema'
   gem 'faker'
+  # gem 'devise_token_auth', git: 'https://github.com/scott-knight/devise_token_auth'
 end
